@@ -1,17 +1,21 @@
 fun main() {
-    fun part1(input: List<String>): Int {
-        return input.size
+    val lines = readInput("Day01")
+
+    var elf = 1
+    val elfs = mutableMapOf<Int, MutableList<Int>>()
+    for (line in lines) {
+        if (line.isBlank()) {
+            elf++
+            continue
+        }
+        (elfs.getOrPut(elf) { mutableListOf() }).add(Integer.parseInt(line))
     }
+    val sums = elfs.mapValues { it.value.sum() }
+    val maxElf = sums.maxBy { it.value }
+    println("First: $maxElf")
 
-    fun part2(input: List<String>): Int {
-        return input.size
-    }
-
-    // test if implementation meets criteria from the description, like:
-    val testInput = readInput("Day01_test")
-    check(part1(testInput) == 1)
-
-    val input = readInput("Day01")
-    println(part1(input))
-    println(part2(input))
+    val descValues = sums.values.sortedDescending()
+    println("Second: $descValues")
+    val max3 = descValues[0] + descValues[1] + descValues[2]
+    println("Second: $max3")
 }
